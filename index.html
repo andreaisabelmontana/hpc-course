@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>HPC Course — A Study</title>
+<meta name="description" content="A from-scratch study of a practical High-Performance Computing course: Slurm, OpenMP, MPI, CUDA and performance tuning." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --accent:#d97706; --accent-soft:#fdf2e3; --ink:#211a12; --muted:#6d6256;
+    --line:#e8e1d7; --bg:#fcfbf8; --card:#ffffff;
+    --serif:'Fraunces',Georgia,serif; --sans:'Inter',system-ui,sans-serif; --mono:'JetBrains Mono',monospace;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.65;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:860px;margin:0 auto;padding:0 28px}
+  a{color:var(--accent);text-decoration:none}
+  a:hover{text-decoration:underline}
+  code{font-family:var(--mono);font-size:.86em;background:var(--accent-soft);padding:.1em .4em;border-radius:4px;color:#9a5300}
+  h1,h2,h3{font-family:var(--serif);font-weight:500;line-height:1.15;letter-spacing:-.01em}
+  header.hero{padding:88px 0 56px;border-bottom:1px solid var(--line)}
+  .eyebrow{font-family:var(--mono);font-size:.74rem;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);margin:0 0 22px}
+  h1{font-size:clamp(2.6rem,6vw,4.1rem);margin:0 0 18px}
+  .lede{font-size:1.22rem;color:var(--muted);max-width:62ch;margin:0 0 28px}
+  .meta{display:flex;flex-wrap:wrap;gap:10px;font-size:.82rem}
+  .chip{font-family:var(--mono);font-size:.72rem;letter-spacing:.04em;border:1px solid var(--line);border-radius:999px;padding:5px 12px;color:var(--muted);background:var(--card)}
+  section{padding:54px 0;border-bottom:1px solid var(--line)}
+  .kicker{font-family:var(--mono);font-size:.74rem;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);margin:0 0 14px}
+  h2{font-size:clamp(1.7rem,3.4vw,2.3rem);margin:0 0 20px}
+  h3{font-size:1.2rem;margin:0 0 6px}
+  p{margin:0 0 18px;max-width:68ch}
+  .muted{color:var(--muted)}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-top:8px}
+  .tool{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px}
+  .tool .t{font-family:var(--mono);font-size:.78rem;color:var(--accent);letter-spacing:.04em;margin-bottom:8px}
+  .tool h3{font-size:1.05rem;font-family:var(--sans);font-weight:600;margin-bottom:6px}
+  .tool p{font-size:.92rem;color:var(--muted);margin:0}
+  ol.flow{counter-reset:s;list-style:none;padding:0;margin:24px 0 0}
+  ol.flow li{position:relative;padding:18px 0 18px 56px;border-top:1px solid var(--line)}
+  ol.flow li:before{counter-increment:s;content:"M" counter(s);position:absolute;left:0;top:18px;font-family:var(--mono);font-size:.78rem;color:var(--accent);border:1px solid var(--line);border-radius:8px;width:44px;height:38px;display:grid;place-items:center;background:var(--card)}
+  ol.flow li h3{font-family:var(--sans);font-size:1.02rem;font-weight:600;margin:0 0 4px}
+  ol.flow li p{margin:0;font-size:.93rem;color:var(--muted)}
+  .callout{background:var(--accent-soft);border:1px solid #f1dcb8;border-radius:14px;padding:24px 26px;margin-top:8px}
+  .callout p:last-child{margin:0}
+  ul.learn{list-style:none;padding:0;margin:8px 0 0}
+  ul.learn li{padding:14px 0 14px 30px;border-top:1px solid var(--line);position:relative;color:var(--muted);max-width:68ch}
+  ul.learn li:before{content:"→";position:absolute;left:0;color:var(--accent);font-family:var(--mono)}
+  ul.learn li b{color:var(--ink);font-weight:600}
+  footer{padding:48px 0 80px}
+  .credit{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:26px}
+  .credit .k{font-family:var(--mono);font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:10px}
+  footer .fine{font-size:.8rem;color:var(--muted);margin-top:22px;text-align:center}
+</style>
+</head>
+<body>
+<header class="hero">
+  <div class="wrap">
+    <p class="eyebrow">Rebuild Study · 02 · Parallel Computing</p>
+    <h1>HPC Course</h1>
+    <p class="lede">How do you make a program run on a thousand cores at once? This is a practical, notebook-driven course on high-performance computing — Slurm, OpenMP, MPI and CUDA — rebuilt from scratch to actually learn the tools instead of just reading about them.</p>
+    <div class="meta">
+      <span class="chip">Slurm</span><span class="chip">OpenMP</span><span class="chip">MPI</span>
+      <span class="chip">CUDA / GPU</span><span class="chip">Jupyter</span><span class="chip">Colab-runnable</span>
+    </div>
+  </div>
+</header>
+
+<section>
+  <div class="wrap">
+    <p class="kicker">What it is</p>
+    <h2>From one core to a cluster</h2>
+    <p>Most code runs on a single core and waits. <b>High-Performance Computing</b> is the craft of splitting work so that many cores — across many machines — chew through it together. This course is the hands-on companion to a two-volume HPC textbook: a set of Jupyter notebooks that walk from "what is a supercomputer" all the way to writing GPU kernels.</p>
+    <p>What makes it practical is that the exercises are meant to be submitted to a real <b>HPC cluster</b> through a scheduler, while the lighter notebooks also run in Google Colab. So you learn the same workflow a researcher uses: write code, ask the scheduler for nodes, wait in the queue, collect results.</p>
+    <div class="callout">
+      <p><b>The core idea I wanted to learn:</b> parallelism isn't one technique, it's a ladder. Threads share memory (OpenMP), processes pass messages (MPI), GPUs run thousands of tiny threads (CUDA), and a scheduler (Slurm) hands out the hardware. Each rung solves a different bottleneck.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <p class="kicker">The stack</p>
+    <h2>Tools of the trade</h2>
+    <p class="muted">These five are the vocabulary of every HPC centre. Rebuilding the course meant getting each one to actually run.</p>
+    <div class="grid">
+      <div class="tool"><div class="t">scheduler</div><h3>Slurm</h3><p>The cluster's traffic controller. You write a job script saying how many nodes and how long you need, then <code>sbatch</code> it and wait in the queue.</p></div>
+      <div class="tool"><div class="t">shared memory</div><h3>OpenMP</h3><p>Add a <code>#pragma</code> and a loop runs across all the cores of one machine. The gentlest way into parallelism.</p></div>
+      <div class="tool"><div class="t">distributed</div><h3>MPI</h3><p>Message Passing Interface. Separate processes — possibly on different machines — coordinate by sending each other data. How you scale past one node.</p></div>
+      <div class="tool"><div class="t">accelerators</div><h3>CUDA / OpenACC</h3><p>Offload the heavy math to a GPU's thousands of cores. OpenACC eases you in with pragmas; CUDA gives full control.</p></div>
+      <div class="tool"><div class="t">environment</div><h3>JupyterHub</h3><p>Notebooks load straight from raw GitHub URLs into a hub running on the cluster — the delivery vehicle for every lesson.</p></div>
+      <div class="tool"><div class="t">tuning</div><h3>Profiling</h3><p>Measuring before optimising: where are the cycles going, is it compute- or memory-bound, what's the speed-up vs. ideal.</p></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <p class="kicker">Syllabus</p>
+    <h2>Three modules, building up</h2>
+    <p>The course climbs the parallelism ladder one module at a time.</p>
+    <ol class="flow">
+      <li><h3>Foundations &amp; Architecture</h3><p>What HPC is and how it evolved, the anatomy of a cluster, resource management and performance metrics, cloud &amp; containerised HPC, and a real application domain (health &amp; neuroscience). First contact with Slurm.</p></li>
+      <li><h3>Parallel Programming</h3><p>The heart of it: OpenMP for shared-memory threading, a deep dive into MPI for distributed work, and GPU computing with OpenACC and CUDA basics.</p></li>
+      <li><h3>Performance Tuning</h3><p>Making it actually fast — profiling, finding bottlenecks, and measuring speed-up against the theoretical ideal.</p></li>
+    </ol>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <p class="kicker">How it runs</p>
+    <h2>The cluster workflow</h2>
+    <ul class="learn">
+      <li><b>Open a notebook from a URL.</b> JupyterHub pulls each lesson straight from raw GitHub — no cloning, no setup drift.</li>
+      <li><b>Write the parallel code.</b> An OpenMP loop, an MPI rank exchange, a CUDA kernel.</li>
+      <li><b>Submit to Slurm.</b> Wrap it in a job script, request nodes and a time limit, <code>sbatch</code>, and watch the queue.</li>
+      <li><b>Collect &amp; profile.</b> Read the output, time it, compare against the serial baseline, then tune.</li>
+    </ul>
+    <p class="muted" style="margin-top:18px">In my rebuild I leaned on the Colab-runnable notebooks where I had no cluster, and mocked the Slurm submission step locally to understand the job-script anatomy.</p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <p class="kicker">Reflection</p>
+    <h2>What rebuilding it taught me</h2>
+    <ul class="learn">
+      <li><b>The scheduler is the real interface.</b> You rarely "log into a supercomputer" and run things — you describe a job and wait. Slurm <i>is</i> the user experience of HPC.</li>
+      <li><b>Shared vs. distributed memory is the fork in the road.</b> OpenMP and MPI aren't competitors; they answer "is my data on one machine or many?"</li>
+      <li><b>GPUs reward a different shape of problem.</b> Thousands of tiny identical operations fly; branchy, sequential logic stalls.</li>
+      <li><b>Measure first, optimise second.</b> The performance-tuning module is the whole point — speed-up is meaningless without a baseline.</li>
+    </ul>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="credit">
+      <div class="k">Credit & honesty</div>
+      <p style="margin-bottom:10px">This is an independent <b>study rebuild</b> — written from scratch to learn the tools, not a fork and not affiliated with the original author. All credit for the original course and notebooks goes to:</p>
+      <p style="margin:0"><b>Oscar Diez</b> · <a href="https://github.com/OscarDiez/hpc_course" target="_blank" rel="noopener">github.com/OscarDiez/hpc_course</a><br/>Companion to his two-volume HPC textbook (<i>Foundations</i> and <i>Applications &amp; Frontiers</i>).</p>
+    </div>
+    <p class="fine">Rebuild study by Andrea · no forking, no shared commits — just learning the toolchain by reconstructing it.</p>
+  </div>
+</footer>
+</body>
+</html>
